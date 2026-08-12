@@ -8,13 +8,14 @@ from Screen import draw
 pygame.init()
 
 
-win=Screen.screen
+win=Screen.screen.
 x = consts.SOLDIER_MIDBOTTOM_X
 y = consts.SOLDIER_MIDBOTTOM_Y
 
 width =consts.SOLDIER_WIDTH
 height = consts.SOLDIER_HEIGHT
 img=Screen.create_soldier(consts.SOLDIER_IMG)
+img=img.get_rect()
 vel = 10
 run = True
 # infinite loop
@@ -40,7 +41,5 @@ while run:
         display2 = pygame.display.set_mode((consts.SCREEN_WIDTH,consts.SCREEN_HEIGHT))
         time.sleep(1)
         win = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
-    draw()
-    win.blit(img, (x, y))
+    win.transform(img, (x, y))
     pygame.display.update()
-

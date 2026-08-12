@@ -1,4 +1,4 @@
-import Screen
+import random
 import pygame
 import consts
 
@@ -9,15 +9,13 @@ screen = pygame.display.set_mode(
 def create_soldier(soldier_img):
     soldier = soldier_img
     sized_soldier = pygame.transform.scale(soldier, (consts.SOLDIER_WIDTH,consts.SOLDIER_HEIGHT))
-    soldier_box = pygame.Surface((consts.SOLDIER_WIDTH, consts.SOLDIER_HEIGHT),)
+    soldier_box = pygame.Surface((consts.SOLDIER_WIDTH, consts.SOLDIER_HEIGHT*2),)
     soldier_box.fill(consts.BACKGROUND_COLOR)
     soldier_box.blit(sized_soldier, (0, 0))
     return soldier_box
 
 def draw_soldier(soldier):
-    rotated_arrow_rect = soldier.get_rect(
-            center=(consts.SOLDIER_MIDBOTTOM_X, consts.SOLDIER_MIDBOTTOM_Y))
-    screen.blit(soldier, rotated_arrow_rect)
+    screen.blit(soldier,(0,0))
 
 
 def create_grass(grass_img):
@@ -28,16 +26,17 @@ def create_grass(grass_img):
         soldier_box.blit(sized_soldier, (0, 0))
         return soldier_box
 
-def draw_grass(arrow):
-        rotated_arrow_rect = arrow.get_rect(
-            center=(consts.SOLDIER_MIDBOTTOM_X, consts.SOLDIER_MIDBOTTOM_Y))
-        screen.blit(arrow, rotated_arrow_rect)
+def draw_grass(grass):
+    for i in range  (20):
+        x = random.randint(1, 1280)
+        y = random.randint(1, 720)
+        screen.blit(grass, (x, y))
 
 def draw():
     screen.fill(consts.BACKGROUND_COLOR)
-    draw_soldier(create_soldier(consts.SOLDIER_IMG))
     draw_grass(create_grass(consts.GRASS_IMG))
-    pygame.display.flip()
+    pygame.display.update()
+
 """
 
 
