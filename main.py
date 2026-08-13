@@ -1,5 +1,4 @@
 import pygame
-from pygame import display
 import Screen
 import time
 import consts
@@ -7,14 +6,20 @@ import consts
 pygame.init()
 
 win = Screen.screen
-x = consts.SOLDIER_MIDBOTTOM_X
-y = consts.SOLDIER_MIDBOTTOM_Y
+win2 = Screen.screen
+x_s = consts.SOLDIER_MIDBOTTOM_X
+y_s = consts.SOLDIER_MIDBOTTOM_Y
+x_n = consts.NIGHT_SOLDIER_MIDBOTTOM_X
+y_n = consts.NIGHT_SOLDIER_MIDBOTTOM_Y
+x_f=consts.FLAG_MIDBOTTOM_X
+y_f=consts.FLAG_MIDBOTTOM_Y
 
 width = consts.SOLDIER_WIDTH
 height = consts.SOLDIER_HEIGHT
 
-img = Screen.create_soldier(consts.SOLDIER_IMG)
-
+img_soldier = Screen.create_soldier(consts.SOLDIER_IMG)
+img_flag = Screen.create_flag(consts.FLAG_IMG)
+img_night_soldier=Screen.create_soldier(consts.NIGHT_SOLDIER_IMG)
 clock = pygame.time.Clock()
 
 vel = 5
@@ -29,20 +34,25 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT] and x > 0:
-        x -= vel
-    if keys[pygame.K_RIGHT] and x < consts.SCREEN_WIDTH - width:
-        x += vel
-    if keys[pygame.K_UP] and y > 0:
-        y -= vel
-    if keys[pygame.K_DOWN] and y < consts.SCREEN_HEIGHT - height:
-        y += vel
+    if keys[pygame.K_LEFT] and x_s > 0:
+        x_s -= vel
+        x_n -= vel
+    if keys[pygame.K_RIGHT] and x_s < consts.SCREEN_WIDTH - width:
+        x_s += vel
+        x_n += vel
+    if keys[pygame.K_UP] and y_s > 0:
+        y_s -= vel
+        y_n -= vel
+    if keys[pygame.K_DOWN] and y_s < consts.SCREEN_HEIGHT - height:
+        y_s += vel
+        y_n += vel
 
     if keys[pygame.K_RETURN]:
-        display2 = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
+        win2 = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
+        Screen.draw2(img_night_soldier, x_n, y_n, )
         time.sleep(1)
         win = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
 
-    Screen.draw(img, x, y)
-
+    Screen.draw(img_soldier, x_s, y_s,img_flag, x_f, y_f)
+    
 pygame.quit()
