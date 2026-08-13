@@ -1,6 +1,9 @@
 import random
+import time
+
 import pygame
 import consts
+import soldier
 from random import randrange
 screen = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
 
@@ -11,8 +14,8 @@ for i in range(20):
     GRASS_POSITIONS.append((x, y))
 MINE_POSITIONS = []
 for i in range(20):
-    x_l = random.randrange(0, consts.SCREEN_WIDTH - consts.MINE_WIDTH,25*3)
-    y_l = random.randrange(0, consts.SCREEN_HEIGHT - consts.SOLDIER_HEIGHT,25)
+    x_l = random.randrange(100, consts.SCREEN_WIDTH - consts.MINE_WIDTH,25*3)
+    y_l = random.randrange(100, consts.SCREEN_HEIGHT - consts.SOLDIER_HEIGHT,25)
     MINE_POSITIONS.append((x_l, y_l))
 
 def create_soldier(soldier_img):
@@ -64,6 +67,53 @@ def create_matrix():
         pygame.draw.line(screen, (100, 100, 100), start_pos, end_pos, 1)
     return matrix_surface
 
+def winning_message():
+    black = (0, 0, 0)
+    green = (0, 255, 0)
+    display_surface = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
+    pygame.display.set_caption('Show Text')
+    font = pygame.font.Font('freesansbold.ttf', 100)
+    text = font.render('you win', True, green)
+    textRect = text.get_rect()
+    textRect.center = (consts.SCREEN_WIDTH // 2, consts.SCREEN_HEIGHT // 2)
+    while True:
+        display_surface.fill(black)
+        display_surface.blit(text, textRect)
+        pygame.display.update()
+        time.sleep(3)
+        quit()
+
+
+def loosing_message():
+    black = (0, 0, 0)
+    green = (0, 255, 0)
+    display_surface = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
+    pygame.display.set_caption('Show Text')
+    font = pygame.font.Font('freesansbold.ttf', 100)
+    text = font.render('you got fucked by a mine', True, green)
+    textRect = text.get_rect()
+    textRect.center = (consts.SCREEN_WIDTH // 2, consts.SCREEN_HEIGHT // 2)
+    while True:
+        display_surface.fill(black)
+        display_surface.blit(text, textRect)
+        pygame.display.update()
+        time.sleep(3)
+        quit()
+def welcome_message():
+    black = (0, 0, 0)
+    green = (0, 255, 0)
+    display_surface = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
+    pygame.display.set_caption('Show Text')
+    font = pygame.font.Font('freesansbold.ttf', 100)
+    text = font.render('you got fucked by a mine', True, green)
+    textRect = text.get_rect()
+    textRect.center = (0, 0)
+    while True:
+        display_surface.fill(black)
+        display_surface.blit(text, textRect)
+        pygame.display.update()
+        time.sleep(3)
+        quit()
 def draw(soldier_img, soldier_x, soldier_y,flag_img, flag_x, flag_y):
 
     screen.fill(consts.BACKGROUND_COLOR)
