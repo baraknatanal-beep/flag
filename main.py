@@ -3,7 +3,7 @@ import Screen
 import time
 import consts
 import soldier
-from soldier import legs_lst
+
 pygame.font.init()
 pygame.init()
 
@@ -29,6 +29,7 @@ my_font = pygame.font.SysFont('Comic Sans MS', 30)
 text_surface = my_font.render('Some Text', False, (0, 0, 0))
 vel = 5
 run = True
+Screen.welcome_message(img_soldier, x_s, y_s,img_flag, x_f, y_f)
 while run:
     clock.tick(60)
     body_lst = soldier.body_lst(x_s, y_s)
