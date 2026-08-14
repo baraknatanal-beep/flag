@@ -85,35 +85,31 @@ def winning_message():
 
 
 def loosing_message():
-    black = (0, 0, 0)
-    green = (0, 255, 0)
     display_surface = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
     pygame.display.set_caption('Show Text')
     font = pygame.font.Font('freesansbold.ttf', 100)
-    text = font.render('you got fucked by a mine', True, green)
+    text = font.render('you  landed on  a  landmine', True, (255,0,0))
     textRect = text.get_rect()
     textRect.center = (consts.SCREEN_WIDTH // 2, consts.SCREEN_HEIGHT // 2)
     while True:
-        display_surface.fill(black)
+        display_surface.fill((0,0,0))
         display_surface.blit(text, textRect)
         pygame.display.update()
         time.sleep(3)
         quit()
-def welcome_message():
-    black = (0, 0, 0)
-    green = (0, 255, 0)
+def welcome_message(soldier_img, soldier_x, soldier_y,flag_img, flag_x, flag_y):
     display_surface = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
     pygame.display.set_caption('Show Text')
-    font = pygame.font.Font('freesansbold.ttf', 100)
-    text = font.render('you got fucked by a mine', True, green)
+    font = pygame.font.Font('freesansbold.ttf', 30 )
+    text = font.render('welcome to the game', True,(255,255,255))
     textRect = text.get_rect()
-    textRect.center = (0, 0)
+    textRect.center = (150, 50)
     while True:
-        display_surface.fill(black)
+        draw(soldier_img, soldier_x, soldier_y,flag_img, flag_x, flag_y)
         display_surface.blit(text, textRect)
         pygame.display.update()
         time.sleep(3)
-        quit()
+        break
 def draw(soldier_img, soldier_x, soldier_y,flag_img, flag_x, flag_y):
 
     screen.fill(consts.BACKGROUND_COLOR)
