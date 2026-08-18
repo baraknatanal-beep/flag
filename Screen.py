@@ -8,12 +8,12 @@ from random import randrange
 screen = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
 
 GRASS_POSITIONS = []
-for i in range(20):
+for i in range(consts.grass_num):
     x = random.randrange(0, consts.SCREEN_WIDTH - consts.GRASS_WIDTH,25*3)
     y = random.randrange(0, consts.SCREEN_HEIGHT - consts.SOLDIER_HEIGHT,25)
     GRASS_POSITIONS.append((x, y))
 MINE_POSITIONS = []
-for i in range(20):
+for i in range(consts.mines_num):
     x_l = random.randrange(100, consts.SCREEN_WIDTH - consts.MINE_WIDTH,25*3)
     y_l = random.randrange(100, consts.SCREEN_HEIGHT - consts.SOLDIER_HEIGHT,25)
     MINE_POSITIONS.append((x_l, y_l))
