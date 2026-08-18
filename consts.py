@@ -9,6 +9,8 @@ NIGHT_SOLDIER_HEIGHT=100
 CELL_SIZE=25
 GRID_COLS=50
 GRID_ROWS=25
+mines_num=20
+grass_num=20
 
 GRASS_IMG = pygame.image.load('grass.png')
 FLAG_IMG = pygame.image.load('flag.png')
