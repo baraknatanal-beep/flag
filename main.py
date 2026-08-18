@@ -17,6 +17,7 @@ x_n = soldier.NIGHT_SOLDIER_MIDBOTTOM_X
 y_n = soldier.NIGHT_SOLDIER_MIDBOTTOM_Y
 x_f=consts.FLAG_MIDBOTTOM_X
 y_f=consts.FLAG_MIDBOTTOM_Y
+grass=Screen.grass_surface
 
 width = consts.SOLDIER_WIDTH
 height = consts.SOLDIER_HEIGHT
@@ -48,24 +49,25 @@ while run:
                 hold_duration = (pygame.time.get_ticks() - key_pressed_time) / 1000
                 key_pressed_time = 0
                 if hold_duration >= 1.0:
-                    game_saves[f"{pygame.key.name(event.key)}"]=img_soldier, x_s, y_s,img_flag, x_f, y_f
+                    game_saves[f"{pygame.key.name(event.key)}"]= x_s, y_s, x_f, y_f,grass,mine
                     with open("test2.csv", "a", newline="") as f:
                         w = csv.DictWriter(f, game_saves.keys())
                         w.writeheader()
                         w.writerow(game_saves)
-                    print(game_saves)
                 else:
                     l=False
                     with open("test2.csv", 'r') as data:
                         for line in csv.reader(data):
                             if l==True:
-                                print(line)
+                                x_s, y_s,x_f, y_f= int(line[0][1:-1].split(",")[0]),int(line[0][1:-1].split(",")[1]),int(line[0][1:-1].split(",")[2]),int(line[0][1:-1].split(",")[3])
+                                x_n, y_n,=x_s,y_s
+                                grass=line[0][1:-1].split(",")[4]
+                                mine=line[0][1:-1].split(",")[5]
+
+                                print(x_s, y_s, x_f, y_f)
                                 l=False
                             if line[0]==pygame.key.name(event.key):
                                 l=True
-
-                    print(f"לחיצה קצרה! משך זמן: {hold_duration:.2f} שניות")
-                    print(pygame.key.name(event.key))
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT] and x_s > 0:
