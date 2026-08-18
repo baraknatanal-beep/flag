@@ -3,7 +3,8 @@ import Screen
 import time
 import consts
 import soldier
-
+import csv
+import pandas as pd
 pygame.font.init()
 pygame.init()
 
@@ -30,6 +31,7 @@ text_surface = my_font.render('Some Text', False, (0, 0, 0))
 vel = 5
 run = True
 Screen.welcome_message(img_soldier, x_s, y_s,img_flag, x_f, y_f)
+game_saves={}
 while run:
     current_time = pygame.time.get_ticks()
     clock.tick(10)
@@ -40,15 +42,30 @@ while run:
             run = False
         elif event.type == pygame.KEYDOWN:
             if pygame.K_1 <= event.key <= pygame.K_9:
-                key_pressed_time = pygame.time.get_ticks()  
+                key_pressed_time = pygame.time.get_ticks()
         elif event.type == pygame.KEYUP:
             if pygame.K_1 <= event.key <= pygame.K_9 and key_pressed_time > 0:
                 hold_duration = (pygame.time.get_ticks() - key_pressed_time) / 1000
-                key_pressed_time = 0  # איפוס המשתנה
+                key_pressed_time = 0
                 if hold_duration >= 1.0:
-                    print(f"לחיצה ארוכה! משך זמן: {hold_duration:.2f} שניות")
+                    game_saves[f"{pygame.key.name(event.key)}"]=img_soldier, x_s, y_s,img_flag, x_f, y_f
+                    with open("test2.csv", "a", newline="") as f:
+                        w = csv.DictWriter(f, game_saves.keys())
+                        w.writeheader()
+                        w.writerow(game_saves)
+                    print(game_saves)
                 else:
+                    l=False
+                    with open("test2.csv", 'r') as data:
+                        for line in csv.reader(data):
+                            if l==True:
+                                print(line)
+                                l=False
+                            if line[0]==pygame.key.name(event.key):
+                                l=True
+
                     print(f"לחיצה קצרה! משך זמן: {hold_duration:.2f} שניות")
+                    print(pygame.key.name(event.key))
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT] and x_s > 0:
@@ -72,6 +89,7 @@ while run:
         exit()
     if soldier.touch_mine(legs_lst, mine):
         Screen.loosing_message()
+
     if keys[pygame.K_RETURN]:
         dis2 = pygame.display.set_mode((consts.SCREEN_WIDTH, consts.SCREEN_HEIGHT))
         Screen.draw2(img_night_soldier, x_n, y_n, )
