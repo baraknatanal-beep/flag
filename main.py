@@ -31,13 +31,24 @@ vel = 5
 run = True
 Screen.welcome_message(img_soldier, x_s, y_s,img_flag, x_f, y_f)
 while run:
-    clock.tick(60)
+    current_time = pygame.time.get_ticks()
+    clock.tick(10)
     body_lst = soldier.body_lst(x_s, y_s)
     legs_lst=soldier.legs_lst(x_s, y_s)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+        elif event.type == pygame.KEYDOWN:
+            if pygame.K_1 <= event.key <= pygame.K_9:
+                key_pressed_time = pygame.time.get_ticks()  
+        elif event.type == pygame.KEYUP:
+            if pygame.K_1 <= event.key <= pygame.K_9 and key_pressed_time > 0:
+                hold_duration = (pygame.time.get_ticks() - key_pressed_time) / 1000
+                key_pressed_time = 0  # איפוס המשתנה
+                if hold_duration >= 1.0:
+                    print(f"לחיצה ארוכה! משך זמן: {hold_duration:.2f} שניות")
+                else:
+                    print(f"לחיצה קצרה! משך זמן: {hold_duration:.2f} שניות")
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT] and x_s > 0:
