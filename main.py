@@ -1,3 +1,5 @@
+from turtledemo.chaos import line
+
 import pygame
 import Screen
 import time
@@ -17,7 +19,7 @@ x_n = soldier.NIGHT_SOLDIER_MIDBOTTOM_X
 y_n = soldier.NIGHT_SOLDIER_MIDBOTTOM_Y
 x_f=consts.FLAG_MIDBOTTOM_X
 y_f=consts.FLAG_MIDBOTTOM_Y
-grass=Screen.grass_surface
+#grass=Screen.grass_surface
 
 width = consts.SOLDIER_WIDTH
 height = consts.SOLDIER_HEIGHT
@@ -35,7 +37,7 @@ Screen.welcome_message(img_soldier, x_s, y_s,img_flag, x_f, y_f)
 game_saves={}
 while run:
     current_time = pygame.time.get_ticks()
-    clock.tick(10)
+    clock.tick(150)
     body_lst = soldier.body_lst(x_s, y_s)
     legs_lst=soldier.legs_lst(x_s, y_s)
     for event in pygame.event.get():
@@ -46,25 +48,28 @@ while run:
                 key_pressed_time = pygame.time.get_ticks()
         elif event.type == pygame.KEYUP:
             if pygame.K_1 <= event.key <= pygame.K_9 and key_pressed_time > 0:
-                hold_duration = (pygame.time.get_ticks() - key_pressed_time) / 1000
+                hold_duration = (pygame.time.get_ticks() - key_pressed_time) / 1000.0
                 key_pressed_time = 0
                 if hold_duration >= 1.0:
-                    game_saves[f"{pygame.key.name(event.key)}"]= x_s, y_s, x_f, y_f,grass,mine
+                    game_saves[f"{pygame.key.name(event.key)}"]= (f"{x_s}w{y_s}w{Screen.GRASS_POSITIONS}w{mine}")
                     with open("test2.csv", "a", newline="") as f:
                         w = csv.DictWriter(f, game_saves.keys())
                         w.writeheader()
                         w.writerow(game_saves)
                 else:
+                    split_line=" "
                     l=False
                     with open("test2.csv", 'r') as data:
                         for line in csv.reader(data):
                             if l==True:
-                                x_s, y_s,x_f, y_f= int(line[0][1:-1].split(",")[0]),int(line[0][1:-1].split(",")[1]),int(line[0][1:-1].split(",")[2]),int(line[0][1:-1].split(",")[3])
-                                x_n, y_n,=x_s,y_s
-                                grass=line[0][1:-1].split(",")[4]
-                                mine=line[0][1:-1].split(",")[5]
-
-                                print(x_s, y_s, x_f, y_f)
+                                split_line=line[0].split("w")
+                                x_s=int(split_line[0])
+                                y_s=int(split_line[1])
+                                x_n,y_n=x_s,y_s
+                                Screen.GRASS_POSITIONS=split_line[2]
+                                print(mine)
+                                mine=split_line[3]
+                                print(mine)
                                 l=False
                             if line[0]==pygame.key.name(event.key):
                                 l=True
@@ -89,6 +94,7 @@ while run:
     if soldier.touch_flag(body_lst, soldier.flag_lst):
         Screen.winning_message()
         exit()
+
     if soldier.touch_mine(legs_lst, mine):
         Screen.loosing_message()
 
